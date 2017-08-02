@@ -34,3 +34,15 @@ app.config.update(
 )
 
 celery = make_celery(app)
+
+
+@celery.task
+def celery_work():
+    pass
+
+
+@app.route('/')
+def hello():
+    result = celery_work.delay(10,20)
+    #task = my_background_task.apply_async(args=[10, 20], countdown=60)
+    return 'Done'
